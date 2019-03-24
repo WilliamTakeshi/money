@@ -33,4 +33,26 @@ defmodule MoneyTest do
     refute Money.equals?(Money.new(10, :USD), Money.new(11, :USD))
     refute Money.equals?(Money.new(10, :BRL), Money.new(10, :USD))
   end
+
+  test "test sum/2 with same currency" do
+    assert Money.sum(Money.new(10, :USD), Money.new(10, :USD)) == Money.new(20, :USD)
+    assert Money.sum(Money.new(-20, :USD), Money.new(30, :USD)) == Money.new(10, :USD)
+  end
+
+  test "test sum/2 different currency" do
+    assert_raise ArgumentError, fn ->
+      Money.sum(Money.new(10, :BRL), Money.new(10, :USD))
+    end
+  end
+
+  test "test subtract/2 with same currency" do
+    assert Money.subtract(Money.new(10, :USD), Money.new(10, :USD)) == Money.new(0, :USD)
+    assert Money.subtract(Money.new(-20, :USD), Money.new(30, :USD)) == Money.new(-50, :USD)
+  end
+
+  test "test subtract/2 different currency" do
+    assert_raise ArgumentError, fn ->
+      Money.subtract(Money.new(10, :BRL), Money.new(10, :USD))
+    end
+  end
 end

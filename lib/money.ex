@@ -29,4 +29,20 @@ defmodule Money do
   def equals?(%Money{}, %Money{}) do
     false
   end
+
+  def sum(%Money{amount: amt1, currency: cur}, %Money{amount: amt2, currency: cur}) do
+    Money.new(amt1 + amt2, cur)
+  end
+
+  def sum(%Money{} = a, %Money{} = b), do: currency_not_equal(a, b)
+
+  def subtract(%Money{amount: amt1, currency: cur}, %Money{amount: amt2, currency: cur}) do
+    Money.new(amt1 - amt2, cur)
+  end
+
+  def subtract(%Money{} = a, %Money{} = b), do: currency_not_equal(a, b)
+
+  defp currency_not_equal(a, b) do
+    raise ArgumentError, message: "Currency #{a.currency} and #{b.currency} must be the same"
+  end
 end
