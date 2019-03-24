@@ -1,4 +1,5 @@
 defmodule Money do
+  alias Money.Currency
   @moduledoc """
   Documentation for Money.
   """
@@ -15,7 +16,10 @@ defmodule Money do
   defstruct amount: 0, currency: :USD
 
   def new(amount, currency \\ :BRL) when is_integer(amount) do
-    %Money{amount: amount, currency: currency}
+    case Currency.atom(currency) do
+      nil -> raise ArgumentError, message: "Currency not defined by ISO 4217"
+      currency -> %Money{amount: amount, currency: currency}
+    end
   end
 
   def zero?(%Money{amount: amount}), do: amount == 0
