@@ -215,7 +215,6 @@ defmodule Money.Currency do
   def atom(%Money{currency: currency}),
     do: currency
 
-
   def atom(currency) when is_binary(currency) do
     currency
     |> String.upcase()
