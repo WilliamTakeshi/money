@@ -21,7 +21,11 @@ defmodule Money.Currency do
     BGN: %{name: "Bulgarian Lev", symbol: "лв", exponent: 2},
     BHD: %{name: "Bahraini Dinar", symbol: ".د.ب", exponent: 3},
     BIF: %{name: "Burundi Franc", symbol: "FBu", exponent: 0},
-    BMD: %{name: "Bermudian Dollar (customarily known as Bermuda Dollar)", symbol: "$", exponent: 2},
+    BMD: %{
+      name: "Bermudian Dollar (customarily known as Bermuda Dollar)",
+      symbol: "$",
+      exponent: 2
+    },
     BND: %{name: "Brunei Dollar", symbol: "$", exponent: 2},
     BOB: %{name: "Boliviano Mvdol", symbol: "$b", exponent: 2},
     BOV: %{name: "Boliviano Mvdol", symbol: "$b", exponent: 2},
@@ -190,6 +194,17 @@ defmodule Money.Currency do
   def exists?(currency),
     do: Map.has_key?(@currencies, convert_to_currency(currency))
 
+  def get(%Money{currency: currency}),
+    do: get(currency)
+
+  def get(currency),
+    do: @currencies[convert_to_currency(currency)]
+
+  def name(%Money{currency: currency}),
+    do: name(currency)
+
+  def name(currency),
+    do: get(currency)[:name]
 
   defp convert_to_currency(currency) when is_binary(currency) do
     currency
@@ -201,6 +216,4 @@ defmodule Money.Currency do
   end
 
   defp convert_to_currency(currency), do: currency
-
-
 end
