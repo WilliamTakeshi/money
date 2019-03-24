@@ -192,13 +192,13 @@ defmodule Money.Currency do
     do: exists?(currency)
 
   def exists?(currency),
-    do: Map.has_key?(@currencies, convert_to_currency(currency))
+    do: Map.has_key?(@currencies, atom(currency))
 
   def get(%Money{currency: currency}),
     do: get(currency)
 
   def get(currency),
-    do: @currencies[convert_to_currency(currency)]
+    do: @currencies[atom(currency)]
 
   def name(%Money{currency: currency}),
     do: name(currency)
@@ -206,14 +206,30 @@ defmodule Money.Currency do
   def name(currency),
     do: get(currency)[:name]
 
-  defp convert_to_currency(currency) when is_binary(currency) do
+  def symbol(%Money{currency: currency}),
+    do: symbol(currency)
+
+  def symbol(currency),
+    do: get(currency)[:symbol]
+
+  def atom(%Money{currency: currency}),
+    do: currency
+
+
+  def atom(currency) when is_binary(currency) do
     currency
     |> String.upcase()
     |> String.to_existing_atom()
-    |> convert_to_currency
+    |> atom
   rescue
     _ -> nil
   end
 
-  defp convert_to_currency(currency), do: currency
+  def atom(currency) do
+    if Map.has_key?(@currencies, currency) do
+      currency
+    else
+      nil
+    end
+  end
 end
