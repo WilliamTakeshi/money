@@ -14,4 +14,23 @@ defmodule MoneyTest do
   test "new/2 with a false currency should fail" do
     assert_raise ArgumentError, Money.new(100, :ZZZ)
   end
+
+  test "test zero?/1" do
+    assert Money.zero?(Money.new(0, :USD))
+    assert Money.zero?(Money.new(0, :BRL))
+    refute Money.zero?(Money.new(10, :USD))
+    refute Money.zero?(Money.new(-10, :BRL))
+  end
+
+  test "test negative?/1" do
+    assert Money.negative?(Money.new(0, :USD))
+    refute Money.negative?(Money.new(10, :USD))
+    assert Money.negative?(Money.new(-10, :BRL))
+  end
+
+  test "test equals?/2" do
+    assert Money.equals?(Money.new(10, :USD), Money.new(10, :USD))
+    refute Money.equals?(Money.new(10, :USD), Money.new(11, :USD))
+    refute Money.equals?(Money.new(10, :BRL), Money.new(10, :USD))
+  end
 end
