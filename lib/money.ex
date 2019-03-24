@@ -59,6 +59,12 @@ defmodule Money do
     end)
   end
 
+  def multiply(%Money{amount: amount, currency: cur}, multiplier) when is_integer(multiplier),
+    do: Money.new(amount * multiplier, cur)
+
+  def multiply(%Money{amount: amount, currency: cur}, multiplier) when is_float(multiplier),
+    do: Money.new(round(amount * multiplier), cur)
+
   defp currency_not_equal(a, b) do
     raise ArgumentError, message: "Currency #{a.currency} and #{b.currency} must be the same"
   end

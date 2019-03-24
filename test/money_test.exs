@@ -82,4 +82,10 @@ defmodule MoneyTest do
                %Money{amount: 30455, currency: :BRL}
              ]
   end
+
+  test "test multiply/2" do
+    assert Money.multiply(Money.new(10, :USD), 4) == Money.new(40, :USD)
+    assert Money.multiply(Money.new(10, :USD), 1.333) == Money.new(13, :USD)
+    assert Money.multiply(Money.new(10, :USD), 1.399) == Money.new(14, :USD)
+  end
 end
