@@ -55,4 +55,31 @@ defmodule MoneyTest do
       Money.subtract(Money.new(10, :BRL), Money.new(10, :USD))
     end
   end
+
+  test "test split/2" do
+    assert Money.split(Money.new(10, :BRL), 3) ==
+             [
+               %Money{amount: 4, currency: :BRL},
+               %Money{amount: 3, currency: :BRL},
+               %Money{amount: 3, currency: :BRL}
+             ]
+
+    assert Money.split(Money.new(9, :BRL), 3) ==
+             [
+               %Money{amount: 3, currency: :BRL},
+               %Money{amount: 3, currency: :BRL},
+               %Money{amount: 3, currency: :BRL}
+             ]
+
+    assert Money.split(Money.new(213_189, :BRL), 7) ==
+             [
+               %Money{amount: 30456, currency: :BRL},
+               %Money{amount: 30456, currency: :BRL},
+               %Money{amount: 30456, currency: :BRL},
+               %Money{amount: 30456, currency: :BRL},
+               %Money{amount: 30455, currency: :BRL},
+               %Money{amount: 30455, currency: :BRL},
+               %Money{amount: 30455, currency: :BRL}
+             ]
+  end
 end
