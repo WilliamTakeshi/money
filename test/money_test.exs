@@ -89,4 +89,12 @@ defmodule MoneyTest do
     assert Money.multiply(Money.new(10, :USD), 1.333) == Money.new(13, :USD)
     assert Money.multiply(Money.new(10, :USD), 1.399) == Money.new(14, :USD)
   end
+
+  test "test sum_with_conversion!/2" do
+    assert %Money{currency: :USD} = Money.sum_with_conversion!(Money.new(10, :USD), Money.new(10, :BRL))
+  end
+
+  test "test subtract_with_conversion!/2" do
+    assert %Money{currency: :USD} = Money.subtract_with_conversion!(Money.new(10, :USD), Money.new(10, :BRL))
+  end
 end

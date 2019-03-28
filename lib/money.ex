@@ -1,5 +1,5 @@
 defmodule Money do
-  alias Money.Currency
+  alias Money.{Currency, ExchangeRates}
   defstruct amount: 0, currency: :USD
 
   @moduledoc """
@@ -136,6 +136,33 @@ defmodule Money do
 
   def multiply(%Money{amount: amount, currency: cur}, multiplier) when is_float(multiplier),
     do: Money.new(round(amount * multiplier), cur)
+
+
+  @doc """
+  Return the subtraction of both 'Money' structs, the result will be rounded and coersed
+  to the currency of the first struct
+  Will raise a error in case of a not standard currency
+  """
+  def sum_with_conversion!(
+        %Money{amount: amt1, currency: cur1},
+        %Money{amount: amt2, currency: cur2}
+      ) do
+    rate = ExchangeRates.latest!(cur2, cur1)
+    Money.new(amt1 + round(rate * amt2), cur1)
+  end
+
+  @doc """
+  Return the sum of both 'Money' structs, the result will be rounded and coersed
+  to the currency of the first struct
+  Will raise a error in case of a not standard currency
+  """
+  def subtract_with_conversion!(
+        %Money{amount: amt1, currency: cur1},
+        %Money{amount: amt2, currency: cur2}
+      ) do
+    rate = ExchangeRates.latest!(cur2, cur1)
+    Money.new(amt1 - round(rate * amt2), cur1)
+  end
 
   defp currency_not_equal(a, b) do
     raise ArgumentError, message: "Currency #{a.currency} and #{b.currency} must be the same"
