@@ -2,6 +2,9 @@ defmodule Money do
   alias Money.{Currency, ExchangeRates}
   defstruct amount: 0, currency: :USD
 
+  @typedoc """
+  Money struct, an integer and an atom.
+  """
   @type money :: %__MODULE__{
           amount: integer,
           currency: atom

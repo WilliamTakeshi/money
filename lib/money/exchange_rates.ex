@@ -4,7 +4,7 @@ defmodule Money.ExchangeRates do
   @moduledoc """
   Exchange rates to support to `Money`
   """
-
+  @spec latest!(Money.money | atom, Money.money | atom) :: integer
   @doc """
   Create a new 'Money' struct.
 
