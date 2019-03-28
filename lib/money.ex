@@ -2,6 +2,12 @@ defmodule Money do
   alias Money.{Currency, ExchangeRates}
   defstruct amount: 0, currency: :USD
 
+  @type money :: %__MODULE__{
+          amount: integer,
+          currency: atom
+        }
+
+  @spec new(integer, atom) :: money
   @moduledoc """
   Defines a 'Money' struct and a couple of useful functions to work with it.
   """
@@ -22,6 +28,7 @@ defmodule Money do
     end
   end
 
+  @spec zero?(money) :: bool
   @doc """
   Return true if amount in 'Money' struct is zero.
 
@@ -33,6 +40,7 @@ defmodule Money do
   """
   def zero?(%Money{amount: amount}), do: amount == 0
 
+  @spec negative?(money) :: bool
   @doc """
   Return true if amount in 'Money' struct is negative.
 
@@ -44,6 +52,7 @@ defmodule Money do
   """
   def negative?(%Money{amount: amount}), do: amount <= 0
 
+  @spec equals?(money, money) :: bool
   @doc """
   Return true if amount and currency of both 'Money' structs are equal.
 
@@ -61,6 +70,7 @@ defmodule Money do
     false
   end
 
+  @spec sum(money, money) :: money
   @doc """
   Return the sum of both 'Money' structs, raise a error in case of different currencies.
 
@@ -76,6 +86,7 @@ defmodule Money do
 
   def sum(%Money{} = a, %Money{} = b), do: currency_not_equal(a, b)
 
+  @spec subtract(money, money) :: money
   @doc """
   Return the subtraction of both 'Money' structs, raise a error in case of different currencies.
 
@@ -91,6 +102,7 @@ defmodule Money do
 
   def subtract(%Money{} = a, %Money{} = b), do: currency_not_equal(a, b)
 
+  @spec split(money, integer) :: [money]
   @doc """
   Return a list of money structs splitted equally.
   In case of remainder, the firsts in the list receive the change.
@@ -120,6 +132,7 @@ defmodule Money do
     end)
   end
 
+  @spec multiply(money, integer) :: money
   @doc """
   Multiply the amount of a 'Money' struct, in case of the multiplier be a float
   it rounds the value.
@@ -137,7 +150,7 @@ defmodule Money do
   def multiply(%Money{amount: amount, currency: cur}, multiplier) when is_float(multiplier),
     do: Money.new(round(amount * multiplier), cur)
 
-
+  @spec sum_with_conversion!(money, money) :: money
   @doc """
   Return the subtraction of both 'Money' structs, the result will be rounded and coersed
   to the currency of the first struct
@@ -151,6 +164,7 @@ defmodule Money do
     Money.new(amt1 + round(rate * amt2), cur1)
   end
 
+  @spec subtract_with_conversion!(money, money) :: money
   @doc """
   Return the sum of both 'Money' structs, the result will be rounded and coersed
   to the currency of the first struct
