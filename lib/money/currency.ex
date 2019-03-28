@@ -186,32 +186,86 @@ defmodule Money.Currency do
     ZMK: %{name: "Zambian Kwacha", symbol: "ZK", exponent: 2},
     ZWL: %{name: "Zimbabwe Dollar", symbol: "$", exponent: 2}
   }
+
+  @doc """
+  Return all currencies.
+  """
   def all, do: @currencies
 
+  @doc """
+  Check if the currency exists.
+
+  ## Examples
+
+      iex> Money.Currency.exists?(Money.new(100, :BRL))
+      true
+      iex> Money.Currency.exists?(:BRL)
+      true
+  """
   def exists?(%Money{currency: currency}),
     do: exists?(currency)
 
   def exists?(currency),
     do: Map.has_key?(@currencies, atom(currency))
 
+  @doc """
+  Get currency.
+
+  ## Examples
+
+      iex> Money.Currency.get(Money.new(100, :BRL))
+      %{exponent: 2, name: "Brazilian Real", symbol: "R$"}
+      iex> Money.Currency.get(:BRL)
+      %{exponent: 2, name: "Brazilian Real", symbol: "R$"}
+  """
   def get(%Money{currency: currency}),
     do: get(currency)
 
   def get(currency),
     do: @currencies[atom(currency)]
 
+  @doc """
+  Get currency name.
+
+  ## Examples
+
+      iex> Money.Currency.name(Money.new(100, :BRL))
+      "Brazilian Real"
+      iex> Money.Currency.name(:BRL)
+      "Brazilian Real"
+  """
   def name(%Money{currency: currency}),
     do: name(currency)
 
   def name(currency),
     do: get(currency)[:name]
 
+  @doc """
+  Get currency symbol.
+
+  ## Examples
+
+      iex> Money.Currency.symbol(Money.new(100, :BRL))
+      "R$"
+      iex> Money.Currency.symbol(:BRL)
+      "R$"
+  """
   def symbol(%Money{currency: currency}),
     do: symbol(currency)
 
   def symbol(currency),
     do: get(currency)[:symbol]
 
+  @doc """
+  Get currency atom.
+
+  ## Examples
+
+      iex> Money.Currency.atom(Money.new(100, :BRL))
+      :BRL
+      iex> Money.Currency.atom(:BRL)
+      :BRL
+  """
   def atom(%Money{currency: currency}),
     do: currency
 
