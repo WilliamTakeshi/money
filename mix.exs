@@ -23,6 +23,7 @@ defmodule Money.MixProject do
     [
       {:httpoison, "~> 1.4"},
       {:jason, "~> 1.1"},
+      {:ex_doc, "~> 0.19", only: :dev, runtime: false},
       {:excheck, "~> 0.6", only: :test},
       {:triq, "~> 1.3", only: :test}
       # {:dep_from_hexpm, "~> 0.3.0"},

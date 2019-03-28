@@ -1,10 +1,9 @@
 defmodule Money.Currency do
-
   @type currency :: %{
-    exponent: integer,
-    name: String.t,
-    symbol: String.t
-  }
+          exponent: integer,
+          name: String.t(),
+          symbol: String.t()
+        }
 
   @moduledoc """
   Currency to support to `Money` based on ISO 4217
@@ -198,7 +197,7 @@ defmodule Money.Currency do
   """
   def all, do: @currencies
 
-  @spec exists?(Money.money | atom | String.t) :: boolean()
+  @spec exists?(Money.money() | atom | String.t()) :: boolean()
   @doc """
   Check if the currency exists.
 
@@ -215,8 +214,7 @@ defmodule Money.Currency do
   def exists?(currency),
     do: Map.has_key?(@currencies, atom(currency))
 
-
-  @spec get(Money.money | atom | String.t) :: currency
+  @spec get(Money.money() | atom | String.t()) :: currency
   @doc """
   Get currency.
 
@@ -233,7 +231,7 @@ defmodule Money.Currency do
   def get(currency),
     do: @currencies[atom(currency)]
 
-  @spec name(Money.money | atom | String.t) :: String.t
+  @spec name(Money.money() | atom | String.t()) :: String.t()
   @doc """
   Get currency name.
 
@@ -250,7 +248,7 @@ defmodule Money.Currency do
   def name(currency),
     do: get(currency)[:name]
 
-  @spec symbol(Money.money | atom | String.t) :: String.t
+  @spec symbol(Money.money() | atom | String.t()) :: String.t()
   @doc """
   Get currency symbol.
 
@@ -267,7 +265,7 @@ defmodule Money.Currency do
   def symbol(currency),
     do: get(currency)[:symbol]
 
-  @spec atom(Money.money | atom | String.t) :: atom
+  @spec atom(Money.money() | atom | String.t()) :: atom
   @doc """
   Get currency atom.
 
