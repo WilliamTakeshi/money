@@ -127,11 +127,19 @@ defmodule Money do
 
   defp split_rem(result, 0), do: result
 
-  defp split_rem(result, rem) do
+  defp split_rem(result, rem) when rem > 0 do
     currency = List.first(result).currency
 
     Enum.reduce(0..(rem - 1), result, fn pos, result ->
       List.update_at(result, pos, &Money.sum(&1, Money.new(1, currency)))
+    end)
+  end
+
+  defp split_rem(result, rem) when rem < 0 do
+    currency = List.first(result).currency
+
+    Enum.reduce(0..(-rem - 1), result, fn pos, result ->
+      List.update_at(result, pos, &Money.sum(&1, Money.new(-1, currency)))
     end)
   end
 
